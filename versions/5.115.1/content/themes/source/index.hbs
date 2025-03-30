@@ -1,0 +1,94 @@
+{{!< default}}
+
+<div class="site-header-content outer{{#match @custom.header_style "Left aligned"}} left-aligned{{/match}}{{#unless @custom.show_publication_cover}}{{#match @custom.header_style "Hidden"}} no-content{{/match}}{{/unless}}">
+
+    {{#if @custom.show_publication_cover}}
+        {{#if @site.cover_image}}
+            <img class="site-header-cover"
+                srcset="{{img_url @site.cover_image size="s"}} 300w,
+                        {{img_url @site.cover_image size="m"}} 600w,
+                        {{img_url @site.cover_image size="l"}} 1000w,
+                        {{img_url @site.cover_image size="xl"}} 2000w"
+                sizes="100vw"
+                src="{{img_url @site.cover_image size="xl"}}"
+                alt="{{@site.title}}"
+            />
+        {{/if}}
+    {{/if}}
+
+    {{#match @custom.header_style "!=" "Hidden"}}
+        <div class="site-header-inner inner">
+            {{#match @custom.navigation_layout "Logo on cover"}}
+                {{#if @site.logo}}
+                    <img class="site-logo" src="{{@site.logo}}" alt="{{@site.title}}" style="max-height: 225px; width: auto; filter: drop-shadow(0 0 20px #000000) drop-shadow(0 0 10px #000000);">
+                {{else}}
+                    <h1 class="site-title">{{@site.title}}</h1>
+                {{/if}}
+            {{/match}}
+            {{#if @site.description}}
+                <h1 class="site-description" style="text-align: center; font-size: 3.75rem; font-weight: 800; line-height: 1.4; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">{{@site.description}}</h1>
+            {{/if}}
+        </div>
+    {{/match}}
+</div>
+
+<main id="site-main" class="site-main outer">
+  <h2 style="text-align: center; margin-bottom: 1rem;">Follow Along With the Latest ✍️</h2>
+
+  <div id="rss-feed-widget"></div>
+</main>
+
+<script>
+  const RSS_URL = "https://script.google.com/macros/s/AKfycbxjMIi7RzVdOQbegw5XxIT9oUQOA_aiR9ifOZK5_QExDRtH0AkH0-Ves8bkT3u0WQcK9A/exec";
+  let allItems = [];
+  let currentIndex = 0;
+  const itemsPerLoad = 10;
+
+  function renderItems(items) {
+    const container = document.getElementById("rss-feed-widget");
+    const html = items.map(item => `
+      <a href="${item.link}" class="rss-card" target="_blank" rel="noopener">
+        <img src="${item.image}" alt="${item.title}" class="rss-img"/>
+        <div class="rss-text">
+          <h3 class="rss-title">${item.title}</h3>
+          <p class="rss-description">${item.description}</p>
+        </div>
+      </a>
+    `).join("");
+    container.insertAdjacentHTML('beforeend', html);
+  }
+
+  function loadMore() {
+    const nextItems = allItems.slice(currentIndex, currentIndex + itemsPerLoad);
+    renderItems(nextItems);
+    currentIndex += itemsPerLoad;
+
+    if (currentIndex >= allItems.length) {
+      document.getElementById("rss-load-more").style.display = "none";
+    }
+  }
+
+  fetch(RSS_URL)
+    .then(res => res.text())
+    .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+    .then(data => {
+      allItems = Array.from(data.querySelectorAll("item"))
+        .map(el => ({
+          title: el.querySelector("title")?.textContent ?? "No title",
+          link: el.querySelector("link")?.textContent ?? "#",
+          description: el.querySelector("description")?.textContent ?? "",
+          image: el.querySelector("enclosure")?.getAttribute("url") ?? "",
+          pubDate: new Date(el.querySelector("pubDate")?.textContent ?? 0)
+        }))
+        .sort((a, b) => b.pubDate - a.pubDate);
+
+      loadMore();
+    })
+    .catch(err => {
+      console.error("RSS Feed Load Error:", err);
+      document.getElementById("rss-feed-widget").innerHTML = "<p>Unable to load articles right now.</p>";
+    });
+</script>
+
+<button id="rss-load-more" onclick="loadMore()">Load More</button>
+
