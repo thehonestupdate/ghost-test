@@ -1,12 +1,19 @@
 FROM ghost:5-alpine
 
-# Clear out any existing default theme (like Casper) to avoid symlink issues
+# Remove any pre-existing Ghost content
 RUN rm -rf /var/lib/ghost/content
 
-# Copy over ONLY your custom content (with your DB and your theme)
-COPY versions/5.115.1/content /var/lib/ghost/content
+# Copy over your entire custom content (includes data, themes, images, etc.)
+COPY content /var/lib/ghost/content
 
-# Make sure node owns everything
+# Set correct ownership
 RUN chown -R node:node /var/lib/ghost/content
 
 USER node
+
+# Explicitly tell Ghost to use your SQLite database
+ENV database__client=sqlite3
+ENV database__connection__filename=/var/lib/ghost/content/data/ghost-local.db
+
+# Optional: lock in your custom theme (source)
+ENV GHOST_ACTIVE_THEME=source
