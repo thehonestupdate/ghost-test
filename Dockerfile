@@ -1,13 +1,12 @@
 FROM ghost:5-alpine
 
-# Set working directory
-WORKDIR /var/lib/ghost
+# Clear out any existing default theme (like Casper) to avoid symlink issues
+RUN rm -rf /var/lib/ghost/content
 
-# Copy custom theme into the expected theme directory
-COPY versions/5.115.1/content/themes/source /var/lib/ghost/content/themes/source
+# Copy over ONLY your custom content (with your DB and your theme)
+COPY versions/5.115.1/content /var/lib/ghost/content
 
-# Set ownership for Ghost to use it
-RUN chown -R node:node /var/lib/ghost/content/themes/source
+# Make sure node owns everything
+RUN chown -R node:node /var/lib/ghost/content
 
-# Use the non-root node user
 USER node
