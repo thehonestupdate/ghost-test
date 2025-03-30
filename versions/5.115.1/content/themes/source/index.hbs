@@ -5,13 +5,14 @@
     {{#if @custom.show_publication_cover}}
         {{#if @site.cover_image}}
             <img class="site-header-cover"
-                srcset="{{img_url @site.cover_image size="s"}} 300w,
-                        {{img_url @site.cover_image size="m"}} 600w,
-                        {{img_url @site.cover_image size="l"}} 1000w,
-                        {{img_url @site.cover_image size="xl"}} 2000w"
+                srcset="/content/images/cover-s.jpg 300w,
+                        /content/images/cover-m.jpg 600w,
+                        /content/images/cover-l.jpg 1000w,
+                        /content/images/cover-xl.jpg 2000w"
                 sizes="100vw"
-                src="{{img_url @site.cover_image size="xl"}}"
+                src="/content/images/cover-xl.jpg"
                 alt="{{@site.title}}"
+                style="display: block; margin: 0 auto;"
             />
         {{/if}}
     {{/if}}
