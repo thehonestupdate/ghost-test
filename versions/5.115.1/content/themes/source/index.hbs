@@ -5,15 +5,14 @@
     {{#if @custom.show_publication_cover}}
         {{#if @site.cover_image}}
             <img class="site-header-cover"
-                srcset="/content/images/cover-s.jpg 300w,
-                        /content/images/cover-m.jpg 600w,
-                        /content/images/cover-l.jpg 1000w,
-                        /content/images/cover-xl.jpg 2000w"
-                sizes="100vw"
-                src="/content/images/cover-xl.jpg"
-                alt="{{@site.title}}"
-                style="display: block; margin: 0 auto;"
-            />
+                 srcset="
+                    https://raw.githubusercontent.com/thehonestupdate/ghost-test/main/versions/5.115.1/content/images/Football-Damped-For-Overlay-small.jpg 600w,
+                    https://raw.githubusercontent.com/thehonestupdate/ghost-test/main/versions/5.115.1/content/images/Football-Damped-For-Overlay-medium.jpg 1000w,
+                    https://raw.githubusercontent.com/thehonestupdate/ghost-test/main/versions/5.115.1/content/images/Football-Damped-For-Overlay.png 2000w"
+                 sizes="100vw"
+                 src="https://raw.githubusercontent.com/thehonestupdate/ghost-test/main/versions/5.115.1/content/images/Football-Damped-For-Overlay.png"
+                 alt="{{@site.title}}"
+                 style="display: block; margin: 0 auto; max-width: 100%; height: auto;" />
         {{/if}}
     {{/if}}
 
