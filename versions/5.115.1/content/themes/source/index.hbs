@@ -12,7 +12,7 @@
                  sizes="100vw"
                  src="https://raw.githubusercontent.com/thehonestupdate/ghost-test/main/versions/5.115.1/content/images/Football-Damped-For-Overlay.png"
                  alt="{{@site.title}}"
-                 style="display: block; margin: 0 auto; max-width: 100%; height: auto;" />
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: -1;" />
         {{/if}}
     {{/if}}
 
@@ -20,7 +20,7 @@
         <div class="site-header-inner inner">
             {{#match @custom.navigation_layout "Logo on cover"}}
                 {{#if @site.logo}}
-                    <img class="site-logo" src="{{@site.logo}}" alt="{{@site.title}}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: -1; filter: drop-shadow(0 0 20px #000000) drop-shadow(0 0 10px #000000);">
+                    <img class="site-logo" src="{{@site.logo}}" alt="{{@site.title}}" style="max-height: 225px; width: auto; filter: drop-shadow(0 0 20px #000000) drop-shadow(0 0 10px #000000);">
                 {{else}}
                     <h1 class="site-title">{{@site.title}}</h1>
                 {{/if}}
