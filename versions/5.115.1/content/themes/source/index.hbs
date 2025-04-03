@@ -20,7 +20,7 @@
         <div class="site-header-inner inner">
             {{#match @custom.navigation_layout "Logo on cover"}}
                 {{#if @site.logo}}
-                    <img class="site-logo" src="{{@site.logo}}" alt="{{@site.title}}" style="max-height: 225px; width: auto; filter: drop-shadow(0 0 20px #000000) drop-shadow(0 0 10px #000000);">
+                    <img class="site-logo" src="{{@site.logo}}" alt="{{@site.title}}" style="style="display: block; margin: 0 auto; width: 100%; height: auto; max-height: 50vh; object-fit: cover; filter: drop-shadow(0 0 20px #000000) drop-shadow(0 0 10px #000000);">
                 {{else}}
                     <h1 class="site-title">{{@site.title}}</h1>
                 {{/if}}
